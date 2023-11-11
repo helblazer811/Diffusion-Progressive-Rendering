@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Page</title>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('Connected to server');
+        });
+
+        socket.on('new_data', function(data) {
+            var listItem = document.createElement("li");
+            listItem.appendChild(document.createTextNode(data));
+            document.getElementById("data-list").appendChild(listItem);
+        });
+    </script>
+</head>
+<body>
+    <h1>Data Page</h1>
+    <ul id="data-list">
+    </ul>
+</body>
+</html>

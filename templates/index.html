@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 400px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .content {
+            width: 500px;
+            height: 500px;
+            background-color: #ccc;
+        }
+    </style>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('Connected to server');
+        });
+
+        socket.on('image', function(data) {
+            console.log("Socket image received")
+            document.getElementById('image').src = 'data:image/jpeg;base64,' + data["image_data"];
+        });
+    </script>
+</head>
+<body>
+    <h1>Write a prompt</h1>
+    <form method="POST" action="/generate">
+        <input type="text" name="prompt" placeholder="Write a prompt">
+    </form>
+    <input type="submit" value="Generate Loop" style="margin: 10px;">
+    <div class="content">
+        <img src="image" alt="" id="image" width="512px" height="512px">
+    </div>
+</body>
+</html>
